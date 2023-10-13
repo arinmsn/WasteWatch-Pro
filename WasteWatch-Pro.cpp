@@ -6,9 +6,12 @@ using namespace std;
 
 enum class MenuOptions
 {
-    OPTION_1,
-    OPTION_2,
-    OPTION_3,
+    REGISTRATION,
+    WASTE_TRACKING,
+    REPORTS,
+    ENVIRONMENTAL_IMPACT,
+    ETHICAL_CONSIDERATIONS,
+    DATA_STORAGE_PRIVACY,
     HELP,
     EXIT
 };
@@ -18,11 +21,14 @@ void displayMenu()
 {
     // Define menu options
     vector<string> menuOptions = {
-        "1. Option 1",
-        "2. Option 2",
-        "3. Option 3",
-        "4. Help",
-        "5. Exit"};
+        "1) User registration",
+        "2) Waste tracking",
+        "3) Reports",
+        "4) Environmental Impact Information",
+        "5) Ethical Considerations",
+        "6) Data Storage and Privacy",
+        "7) Help",
+        "8) Exit"};
 
     cout << "\n\t-----     WastWath Pro 1.0     -----\n"
          << endl;
@@ -46,26 +52,38 @@ int main()
 
         if (menuSelection == "1")
         {
-            cout << "You chose option 1." << endl;
+            cout << "You chose User registration." << endl;
         }
         else if (menuSelection == "2")
         {
-            cout << "You chose option 2." << endl;
+            cout << "You chose Waste tracking." << endl;
         }
         else if (menuSelection == "3")
         {
-            cout << "You chose option 3." << endl;
+            cout << "You chose Reports." << endl;
         }
-        else if (menuSelection == "4" || menuSelection == "help" || menuSelection == "Help" || menuSelection == "?")
+        else if (menuSelection == "4")
+        {
+            cout << "You chose Environmental Impact Information." << endl;
+        }
+        else if (menuSelection == "5")
+        {
+            cout << "You chose Ethical Considerations." << endl;
+        }
+        else if (menuSelection == "6")
+        {
+            cout << "You chose Data Storage and Privacy." << endl;
+        }
+        else if (menuSelection == "7" || menuSelection == "help" || menuSelection == "Help" || menuSelection == "?")
         {
             cout << "\nTo choose a menu option, simply enter the number of the option you want." << endl;
-            cout << "For example, to choose Option 1, you would enter \"1\".\n"
+            cout << "For example, to choose User registration, you would enter \"1\".\n"
                  << endl;
-            cout << "To exit, you can also press \"q\", \"quit\", or \"exit\".\n"
+            cout << "To exit, you can also press \"8\", \"q\", \"quit\", or \"exit\".\n"
                  << endl;
-            cout << "Additionally, for help you can type \"help\", \"Help\", \"?\" for help)";
+            cout << "Additionally, for help you can type \"help\", \"Help\", \"?\" for help)" << endl;
         }
-        else if (menuSelection == "5" || menuSelection == "q" || menuSelection == "quit" || menuSelection == "exit")
+        else if (menuSelection == "8" || menuSelection == "q" || menuSelection == "quit" || menuSelection == "exit")
         {
             // Exit the program
             cout << "Exiting..." << endl;
