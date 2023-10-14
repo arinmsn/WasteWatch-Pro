@@ -25,28 +25,28 @@ class UserData
 {
 public:
     // Constructor initializing counts to zero
-    UserData() : recyclablesCount(0), nonRecyclablesCount(0) {}
+    UserData() : recyclablesCount(0.0), nonRecyclablesCount(0.0) {}
 
     // Getter for recyclables count
-    int getRecyclablesCount() const
+    double getRecyclablesCount() const
     {
         return recyclablesCount;
     }
 
     // Getter for non-recyclables count
-    int getNonRecyclablesCount() const
+    double getNonRecyclablesCount() const
     {
         return nonRecyclablesCount;
     }
 
     // Method to increment the recyclables count
-    void incrementRecyclablesCount(int count)
+    void incrementRecyclablesCount(double count)
     {
         recyclablesCount += count;
     }
 
     // Method to increment the non-recyclables count
-    void incrementNonRecyclablesCount(int count)
+    void incrementNonRecyclablesCount(double count)
     {
         nonRecyclablesCount += count;
     }
@@ -64,9 +64,9 @@ public:
     }
 
 private:
-    int recyclablesCount;    // Store the count of recyclables
-    int nonRecyclablesCount; // Store the count of non-recyclables
-    string name;             // Store the user name
+    double recyclablesCount;    // Store the count of recyclables
+    double nonRecyclablesCount; // Store the count of non-recyclables
+    string name;                // Store the user name
 };
 
 // Function to register a new user
@@ -126,6 +126,135 @@ void trackUserData(const map<int, UserData> &userDatabase)
     else
     {
         cerr << "Error: User ID not found.\n";
+    }
+}
+
+// Function to track user waste data
+void trackWaste(map<int, UserData> &userDatabase, int userID)
+{
+    while (true)
+    {
+        // Find the user in the database
+        auto it = userDatabase.find(userID);
+
+        // Check if the user exists
+        if (it != userDatabase.end())
+        {
+            cout << "Enter type of trash (or 'q' to return to main menu): ";
+            string trashType;
+            getline(cin, trashType);
+
+            if (trashType == "q" || trashType == "Q")
+            {
+                break;
+            }
+
+            cout << "Enter amount of waste (lbs): ";
+            double trashAmount;
+            cin >> trashAmount;
+            cin.ignore(); // Ignore newline character
+
+            vector<string> recyclableTrashTypes = {
+                "jug",
+                "jugs",
+                "glass",
+                "paper",
+                "cardboard",
+                "cardboards",
+                "plastic",
+                "yard waste",
+                "jar",
+                "jars",
+                "bottle",
+                "bottles",
+                "can",
+                "cans",
+                "newspaper",
+                "newspapers"};
+
+            vector<string> nonRecyclableTrashTypes = {
+                "food",
+                "trash",
+                "electronics",
+                "batteries",
+                "paper towel",
+                "paper towels",
+                "chemicals",
+                "pizza box",
+                "paper towls",
+                "styrofoam",
+                "bubble wrap",
+                "aerosol can",
+                "aerosol cans",
+                "mirror",
+                "cloth hanger",
+                "cloth hangers",
+                "toys"};
+
+            // Check if the entered trash type is in the non-recyclable list
+            bool isNonRecyclable = false;
+            for (const string &nonRecyclableType : nonRecyclableTrashTypes)
+            {
+                if (trashType == nonRecyclableType)
+                {
+                    isNonRecyclable = true;
+                    break;
+                }
+            }
+
+            bool validTrashType = false;
+
+            // Update user's waste data based on recyclability
+            if (isNonRecyclable)
+            {
+                it->second.incrementNonRecyclablesCount(trashAmount);
+                validTrashType = true;
+            }
+            else
+            {
+                // Check if the entered trash type is in the recyclable list
+                bool isRecyclable = false;
+                for (const string &recyclableType : recyclableTrashTypes)
+                {
+                    if (trashType == recyclableType)
+                    {
+                        isRecyclable = true;
+                        break;
+                    }
+                }
+
+                if (isRecyclable)
+                {
+                    it->second.incrementRecyclablesCount(trashAmount);
+                    validTrashType = true;
+                }
+                else
+                {
+                    cerr << "Error: Invalid trash type entered.\n";
+                }
+            }
+
+            if (validTrashType)
+            {
+                cout << "Waste tracked successfully for User ID" << userID << ".\n";
+            }
+
+            // Save user data to file
+            ofstream outputFile(USER_DATA_FILE, ofstream::out | ofstream::trunc);
+            if (outputFile.is_open())
+            {
+                // Write each user data to entry
+                for (const auto &entry : userDatabase)
+                {
+                    outputFile << entry.first << " \"" << entry.second.getName() << "\" " << entry.second.getRecyclablesCount() << " " << entry.second.getNonRecyclablesCount() << endl;
+                }
+                outputFile.close();
+            }
+        }
+        else
+        {
+            cerr << "Error: User ID not found.\n";
+        }
     }
 }
 
@@ -248,12 +377,20 @@ int main()
         }
         else if (menuSelection == "2")
         {
-            // Call the Waste Tracking function
-            handleWasteTracking(userDatabase);
+            // // Call the Waste Tracking function
+            // handleWasteTracking(userDatabase);
+            int userID;
+            cout << "Enter your User ID: ";
+            cin >> userID;
+            cin.ignore();
+
+            trackWaste(userDatabase, userID);
         }
         else if (menuSelection == "3")
         {
             cout << "You chose Reports." << endl;
+            // Call the Waste Tracking function
+            handleWasteTracking(userDatabase);
         }
         else if (menuSelection == "4")
         {
