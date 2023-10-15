@@ -390,6 +390,46 @@ void generatedWasteReport(const map<int, UserData> &userDatabase)
          << endl;
 }
 
+// Environmental information
+void printEnvironmentalInfo() {
+    std::cout << "===========================================\n";
+    std::cout << "Environmental Impact Information\n";
+    std::cout << "===========================================\n\n";
+    
+    std::cout << "Recycling centers play a crucial role in diverting recyclables from going to landfills. "
+              << "Citizens can drop materials off at these centers to ensure they are recycled properly.\n\n";
+
+    std::cout << "Hazardous waste collection is a common practice in most towns and cities, providing designated areas "
+              << "for people to drop off items like batteries, chemicals, and electronic waste. This process helps ensure "
+              << "that the correct steps are taken when disposing of waste that can be harmful to the environment if not handled properly.\n\n";
+
+    std::cout << "When disposing of waste that is too large to fit into a household trashcan, people can contact their city "
+              << "to arrange for pick-up of bulky items.\n\n";
+
+    std::cout << "In Norway, they have an ideal recycling system with separate bins, each having a different waste bag color "
+              << "for easy identification. These bins include plastic (blue waste bag), food and organic waste (green waste bag), "
+              << "and general waste (anything not blue or green). Norway recycles an impressive 97% of all bottles (plastic and glass), "
+              << "a stark contrast to the global recycling rate of only 9% and the United States' rate of 30%. When purchasing beverages, "
+              << "there's an added cost of $0.20-0.30, which can be refunded upon returning the bottles.\n\n";
+
+    std::cout << "Japan has a recycling rate of over 80%, and is one of the leading countries in the world in terms of waste management. "
+              << "Japan has a number of innovative recycling programs, including a system of deposit refunds for beverage containers and a "
+              << "ban on single-use plastic bags.\n\n";
+
+    std::cout << "South Korea has also made significant progress in reducing waste and increasing recycling. In 2019, South Korea's recycling rate "
+              << "reached 64%, up from just 20% in 2005. South Korea has a number of innovative recycling programs, including a system of door-to-door "
+              << "recycling collection and a pay-as-you-throw program for garbage disposal.\n\n";
+
+    std::cout << "Singapore has a zero-waste goal, and is working to reduce its waste generation by 30% by 2030. Singapore has a number of innovative "
+              << "waste management programs, including a National Recycling Program and a food waste recycling program.\n\n";
+
+    std::cout << "Taiwan has a recycling rate of over 60%, and is working to achieve a zero-waste goal. Taiwan has a number of innovative recycling "
+              << "programs, including a system of deposit refunds for beverage containers and a ban on single-use plastic bags.\n\n";
+
+    std::cout << "Sweden has a recycling rate of over 90%, and is working to become a carbon-negative country by 2045. Sweden has a number of innovative "
+              << "waste management programs, including a system of waste-to-energy incineration and a food waste recycling program.\n";
+}
+
 int main()
 {
     map<int, UserData> userDatabase;
@@ -501,7 +541,7 @@ int main()
         }
         else if (menuSelection == "4")
         {
-            cout << "You chose Environmental Impact Information." << endl;
+            printEnvironmentalInfo();
         }
         else if (menuSelection == "5")
         {
