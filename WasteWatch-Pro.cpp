@@ -4,10 +4,12 @@
 #include <fstream>
 #include <sstream>
 #include <map>
+#include <conio.h>
 
 using namespace std;
 
 const string USER_DATA_FILE = "user_data.txt";
+const string PASSWORD_FILE = "private_info.txt";
 
 enum class MenuOptions
 {
@@ -272,7 +274,7 @@ void displayMenu()
         "7) Help",
         "8) Exit"};
 
-    cout << "\n\t-----     WastWath Pro 1.0     -----\n"
+    cout << "\n\t-----     WasteWatch Pro 1.0     -----\n"
          << endl;
     for (const string &option : menuOptions)
     {
@@ -303,6 +305,89 @@ void handleWasteTracking(map<int, UserData> &userDatabase)
     {
         cerr << "Error: User ID not found.\n";
     }
+}
+
+string getPasswordFromFile(const string &filename)
+{
+    ifstream passwordFile(filename);
+    if (passwordFile)
+    {
+        string password;
+        getline(passwordFile, password);
+        return password;
+    }
+    else
+    {
+        cerr << "Error: Unable to open password file." << endl;
+        exit(1);
+    }
+}
+
+// Utility function to mask user input for password
+string getPasswordInput()
+{
+    string password = "";
+    char ch;
+
+    while (true)
+    {
+        ch = _getch();
+        if (ch == '\r' || ch == '\n')
+        {
+            break;
+        }
+        else if (ch == '\b' && password.length() > 0)
+        {                    // Backspace key
+            cout << "\b \b"; // Remove characters from console
+            password.pop_back();
+        }
+        else
+        {
+            cout << '*';
+            password += ch;
+        }
+    }
+    cout << endl;
+    return password;
+}
+
+bool authenticateUser(const string &actualPassowrd)
+{
+    const int MAX_ATTEMPTS = 3;
+
+    for (int i = 0; i < MAX_ATTEMPTS; i++)
+    {
+        cout << "Enter password (" << MAX_ATTEMPTS - i << " attempts remaining): ";
+        string inputPassword = getPasswordInput();
+
+        if (inputPassword == actualPassowrd)
+            return true; // authenticated
+    }
+
+    return false; // authentication failed after 3 attempts
+}
+
+// Function to print out report of all users
+void generatedWasteReport(const map<int, UserData> &userDatabase)
+{
+    double totalRecyclables = 0.0, totalNonRecyclables = 0.0;
+
+    for (const auto &entry : userDatabase)
+    {
+        totalRecyclables += entry.second.getRecyclablesCount();
+        totalNonRecyclables += entry.second.getNonRecyclablesCount();
+    }
+
+    double totalWaste = totalRecyclables + totalNonRecyclables;
+    double recyclablePercentage = (totalRecyclables / totalWaste) * 100;
+
+    cout << "\n------- Waste Report -------" << endl;
+    cout << "Total Recyclable Waste: " << totalRecyclables << " lbs" << endl;
+    cout << "Total Non-Recyclable Waste: " << totalNonRecyclables << " lbs" << endl;
+    cout << "Total Waste Generated: " << totalWaste << " lbs" << endl;
+    cout << "Percentage of Recyclables: " << recyclablePercentage << "%" << endl;
+    cout << "----------------------------\n"
+         << endl;
 }
 
 int main()
@@ -377,8 +462,6 @@ int main()
         }
         else if (menuSelection == "2")
         {
-            // // Call the Waste Tracking function
-            // handleWasteTracking(userDatabase);
             int userID;
             cout << "Enter your User ID: ";
             cin >> userID;
@@ -388,9 +471,33 @@ int main()
         }
         else if (menuSelection == "3")
         {
-            cout << "You chose Reports." << endl;
-            // Call the Waste Tracking function
-            handleWasteTracking(userDatabase);
+            cout << "1. Report for a specific user" << endl;
+            cout << "2. Report for all users" << endl;
+            cout << "Enter your choice (1 or 2): ";
+            string reportChoice;
+            cin >> reportChoice;
+
+            if (reportChoice == "1")
+            {
+                handleWasteTracking(userDatabase);
+            }
+            else if (reportChoice == "2")
+            {
+                string actualPassword = getPasswordFromFile(PASSWORD_FILE);
+
+                if (authenticateUser(actualPassword))
+                {
+                    generatedWasteReport(userDatabase);
+                }
+                else
+                {
+                    cout << "Access denied. Incorrect password." << endl;
+                }
+            }
+            else
+            {
+                cout << "Invalid choice. Please select 1 or 2." << endl;
+            }
         }
         else if (menuSelection == "4")
         {
