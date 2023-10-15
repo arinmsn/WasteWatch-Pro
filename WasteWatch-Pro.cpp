@@ -107,13 +107,8 @@ void registerUser(map<int, UserData> &userDatabase)
 }
 
 // Function to track user data
-void trackUserData(const map<int, UserData> &userDatabase)
+void trackUserData(const map<int, UserData> &userDatabase, int userID)
 {
-    int userID;
-    cout << "Enter your User ID: ";
-    cin >> userID;
-    cin.ignore();
-
     // Find the user in the database
     auto it = userDatabase.find(userID);
 
@@ -542,15 +537,34 @@ int main()
         }
         else if (menuSelection == "2")
         {
+            string userIDStr;
+            cout << "Enter your User ID (or 'q' to quit): ";
+            getline(cin, userIDStr);
+
+            if (userIDStr == "q" || userIDStr == "Q")
+            {
+                // Return to main menu or handle 'q' exit logic here.
+                continue;
+            }
+
             int userID;
-            cout << "Enter your User ID: ";
-            cin >> userID;
-            cin.ignore();
+            try
+            {
+                userID = stoi(userIDStr);
+            }
+            catch (const std::invalid_argument &e)
+            {
+                cerr << "Error: Invalid User ID format.\n";
+                continue; // go back to menu loop
+            }
 
             trackWaste(userDatabase, userID);
         }
         else if (menuSelection == "3")
         {
+            cout << "===========================================\n";
+            cout << "Reports\n";
+            cout << "===========================================\n\n";
             cout << "1. Report for a specific user" << endl;
             cout << "2. Report for all users" << endl;
             cout << "Enter your choice (1 or 2): ";
@@ -593,6 +607,9 @@ int main()
         }
         else if (menuSelection == "7" || menuSelection == "help" || menuSelection == "Help" || menuSelection == "?" || menuSelection == "h")
         {
+            cout << "===========================================\n";
+            cout << "Help\n";
+            cout << "===========================================\n\n";
             cout << "\nTo choose a menu option, simply enter the number of the option you want." << endl;
             cout << "For example, to choose User registration, you would enter \"1\".\n"
                  << endl;
