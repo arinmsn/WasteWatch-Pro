@@ -448,6 +448,28 @@ void printEthicsInfo()
          << "contributing to a more sustainable and environmentally responsible future.\n";
 }
 
+void printDataStoragePrivacyInfo()
+{
+    cout << "Data Storage & Privacy Best Practices: \n\n";
+
+    cout << "1. Data Storage:\n";
+    cout << "   - Utilize Hybrid and Multi-cloud Storage for optimizing data accessibility and security.\n";
+    cout << "   - Adopt Object Storage for scalable and unstructured data.\n";
+    cout << "   - Implement Storage Virtualization to manage multiple devices from a central point.\n\n";
+
+    cout << "2. Data Privacy:\n";
+    cout << "   - Employ AES and RSA encryption methods for secure data transmission.\n";
+    cout << "   - Use Tokenization to replace sensitive data with non-sensitive placeholders.\n";
+    cout << "   - Implement Anonymization to remove identifiers and Pseudonymization to replace them with fake ones.\n\n";
+
+    cout << "3. Regulations:\n";
+    cout << "   - Adhere to GDPR, CCPA, HIPAA, and PCI DSS for regulatory compliance in data protection.\n\n";
+
+    cout << "4. Cybersecurity:\n";
+    cout << "   - Deploy Firewalls, Antivirus Programs, and VPNs for securing network data.\n";
+    cout << "   - Use IDPS and DLP strategies to prevent vulnerability exploits and data leakage, respectively.\n\n";
+}
+
 int main()
 {
     map<int, UserData> userDatabase;
@@ -567,7 +589,7 @@ int main()
         }
         else if (menuSelection == "6")
         {
-            cout << "You chose Data Storage and Privacy." << endl;
+            printDataStoragePrivacyInfo();
         }
         else if (menuSelection == "7" || menuSelection == "help" || menuSelection == "Help" || menuSelection == "?" || menuSelection == "h")
         {
@@ -581,7 +603,9 @@ int main()
         else if (menuSelection == "8" || menuSelection == "q" || menuSelection == "quit" || menuSelection == "exit")
         {
             // Exit the program
-            cout << "Exiting..." << endl;
+            cout << "===========================================\n";
+            cout << "Program has exited.\n";
+            cout << "===========================================\n\n";
             break;
         }
         else
