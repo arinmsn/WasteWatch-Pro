@@ -23,10 +23,10 @@ To compile and run WasteWatch-Pro, you will need a C++ compiler. Follow these st
 
 2. Compile the program:
 	```bash
-	  g++ -o WasteWatch-Pro main.cpp
+	g++ -o WasteWatch-Pro main.cpp
 	
 3. Run the executable:
-  ```bash
-	 ./WasteWatch-Pro
+	```bash
+	./WasteWatch-Pro
 
 
